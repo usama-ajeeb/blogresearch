@@ -24,8 +24,8 @@ export default async function Urls(req, res) {
 
         url: 'https://api.dataforseo.com/v3/serp/google/organic/live/advanced',
         auth: {
-          username: 'votexe7992@cytsl.com',
-          password: 'e496a5c48333a51c',
+          username: 'easycomlife@gmail.com',
+          password: 'dd56269ad5986a27',
         },
         data: post_array,
         headers: {
