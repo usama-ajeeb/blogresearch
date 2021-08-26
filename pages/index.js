@@ -24,11 +24,10 @@ export default function Home() {
         'Content-Type': 'application/json',
       },
     })
-      .then(async (res) => setData(await res.json()))
-      .catch((err) => console.error(err))
-    // const data = await response.json()
 
-    // setData(data)
+    const data = await response.json()
+
+    setData(data)
   }
 
   return (
