@@ -23,7 +23,7 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-    })
+    }).catch((error) => console.log(error))
     const data = await response.json()
 
     setData(data)
