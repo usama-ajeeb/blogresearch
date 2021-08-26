@@ -5,8 +5,6 @@ import cheerio from 'cheerio'
 export const GetUrls = async (keyword) => {
   const urls = []
 
-  // const keyword = req.body.keyword
-
   const post_array = []
   post_array.push({
     language_code: 'en',
@@ -17,6 +15,7 @@ export const GetUrls = async (keyword) => {
 
   await axios({
     method: 'post',
+
     url: 'https://api.dataforseo.com/v3/serp/google/organic/live/advanced',
     auth: {
       username: 'votexe7992@cytsl.com',
@@ -41,6 +40,7 @@ export const GetUrls = async (keyword) => {
 // Html htags scrapping with cheerio
 export const GetTags = async (keyword) => {
   const urls = await GetUrls(keyword)
+
   const tagsArray = []
 
   await Promise.all(

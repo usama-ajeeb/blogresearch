@@ -1,27 +1,32 @@
 import axios from 'axios'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import SearchInput from '../components/SearchInput'
 
 export default function Home() {
   const [keyword, setKeyword] = useState('')
-  const [urls, setUrls] = useState([])
-  console.log(urls)
+  const [data, setData] = useState([])
 
-  const fetchUrls = async () => {
-    await fetch(`/api/urls`).then((res) => setUrls(res.json()))
-  }
+  console.log(data)
 
+  const handleChange = useCallback(
+    (e) => {
+      setKeyword(e.target.value)
+    },
+    [setKeyword]
+  )
   const submitHandler = async (e) => {
     e.preventDefault()
-    const response = await fetch(`/api/urls`, {
+    const response = await fetch(`http://localhost:3000/api/urls`, {
       method: 'POST',
       body: JSON.stringify({ keyword }),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    const data = response.json()
-    console.log(data)
+    const data = await response.json()
+
+    setData(data)
   }
 
   return (
@@ -31,14 +36,11 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div>
-        <form action='' onSubmit={submitHandler}>
-          <input
-            type='text'
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-          <button type='submit'>Submit</button>
-        </form>
+        <SearchInput
+          handleChange={handleChange}
+          submitHandler={submitHandler}
+          keyword={keyword}
+        />
       </div>
     </div>
   )
