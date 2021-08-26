@@ -24,7 +24,7 @@ export default function Home() {
         'Content-Type': 'application/json',
       },
     })
-      .then((res) => setData(res.json()))
+      .then(async (res) => setData(await res.json()))
       .catch((err) => console.error(err))
     // const data = await response.json()
 
