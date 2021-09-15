@@ -8,15 +8,16 @@ export default async function Urls(req, res) {
     } else if (req.method === 'POST') {
       // Getting urls from datafor seo api
       const keyword = req.body.keyword
+      const country = req.body.country
 
       const urls = []
-
+      const peopleAsk = []
       const post_array = []
       post_array.push({
         language_code: 'en',
-        location_code: 2840,
+        location_name: country,
         keyword: keyword,
-        depth: 15,
+        depth: 25,
       })
 
       await axios({
@@ -32,6 +33,13 @@ export default async function Urls(req, res) {
           'content-type': 'application/json',
         },
       }).then((response) => {
+        response.data['tasks']?.map((i, index) =>
+          // i.result['0']['items']?.map((i) => console.log(i['items']))
+          i.result['0']['items']?.map((i) =>
+            i['items']?.map((i) => peopleAsk.push(i.title))
+          )
+        )
+
         response.data['tasks']?.map((i, index) =>
           i.result['0']['items']?.map((i) =>
             i['url'] != undefined ? urls.push(i['url']) : i
@@ -59,8 +67,14 @@ export default async function Urls(req, res) {
 
               let webText = []
 
-              $('body').each(function (i, el) {
+              $('h1,H1,h2,H2,h3,H3,H4,p').each(function (i, el) {
                 webText.push($(this).text())
+              })
+
+              let facts = []
+
+              $('p, span').each(function (i, el) {
+                facts.push($(this).text())
               })
 
               let images = []
@@ -68,9 +82,9 @@ export default async function Urls(req, res) {
                 images.push($(element).prop('tagName'))
               })
 
-              let obl = []
-              $('a').each(function (i, element) {
-                obl.push($(element).prop('tagName'))
+              let summ = []
+              $('p').each(function (i, el) {
+                summ.push($(this).text())
               })
 
               tagsArray.push({
@@ -79,7 +93,9 @@ export default async function Urls(req, res) {
                 webText: webText,
                 images: images,
                 tagList: tagList,
-                obl: obl,
+                facts: facts,
+                peopleAsk: peopleAsk,
+                summary: summ,
               })
             })
             .catch((err) => {
@@ -96,6 +112,7 @@ export default async function Urls(req, res) {
             })
         })
       )
+
       res.status(201).json(tagsArray)
     }
   } catch (error) {
