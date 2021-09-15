@@ -66,7 +66,7 @@ function Overview({ data }) {
       </div>
       <div className=' bg-white text-black border shadow-xl h-[600px] overflow-scroll overflow-x-hidden'>
         <h1 className='text-center text-xl font-bold text'></h1>
-        {data.map(({ url, tagg, images, webText }) => (
+        {data?.map(({ url, tagg, images, webText }) => (
           <div className='shadow-sm py-1 my-2 border-t  bg-white'>
             <li className=' list-decimal pl-4 flex items-center'>
               <div className='w-[350px] truncate'>{url}</div>
