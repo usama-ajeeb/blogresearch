@@ -3,13 +3,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "next export"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.10",
+    "firebase-functions": "^3.15.5",
     "next": "latest",
     "next-redux-wrapper": "^7.0.2",
     "react": "^17.0.2",
