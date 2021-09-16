@@ -7,7 +7,7 @@ import Facts from './Facts'
 import PeopleAsk from './PeopleAsk'
 import Summary from './Summary'
 
-function Sidebar() {
+function Sidebar({ list, setList, deleteHandler }) {
   const Htags = useSelector((state) => state.Htags)
   const { data, loading, error } = Htags
 
@@ -91,12 +91,22 @@ function Sidebar() {
           </Tab.Panel>
           <Tab.Panel className=' bg-white text-black h-[700px] overflow-scroll w-[540px] rounded-3xl py-2'>
             <div>
-              <Htag data={data} />
+              <Htag
+                data={data}
+                list={list}
+                setList={setList}
+                deleteHandler={deleteHandler}
+              />
             </div>
           </Tab.Panel>
           <Tab.Panel>
             <div>
-              <Facts data={data} />
+              <Facts
+                data={data}
+                list={list}
+                setList={setList}
+                deleteHandler={deleteHandler}
+              />
             </div>
           </Tab.Panel>
           <Tab.Panel>

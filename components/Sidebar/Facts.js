@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Facts({ data }) {
+function Facts({ data, list, setList }) {
   console.log('people', data)
   var containsNumber = /\d+/
   var containCalled = /https/i
@@ -18,7 +18,12 @@ function Facts({ data }) {
   return (
     <div className='overflow-scroll  h-[690px]'>
       {factss?.map((i) => (
-        <li className='list-none py-2 border-t px-10'>{i}</li>
+        <li
+          onClick={() => setList(list.concat(i.slice(0, i.length)))}
+          className='list-none py-2 border-t px-10 hover:text-gray-500 cursor-pointer'
+        >
+          {i}
+        </li>
       ))}
     </div>
   )
