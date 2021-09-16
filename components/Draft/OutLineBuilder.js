@@ -13,8 +13,8 @@ function OutLineBuilder({ list, deleteHandler }) {
       </h1>
       <div className='bg-white border my-5 p-8'>
         {/* Text editor */}
-        {list.map((item, index) => (
-          <p className='py-2 '>
+        {list?.map((item, index) => (
+          <p className='py-2 ' key={index}>
             {item}{' '}
             <span className='cursor-pointer text-xs underline text-red-600'>
               <a onClick={() => deleteHandler(index)} href='#'>

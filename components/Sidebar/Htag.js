@@ -5,25 +5,29 @@ function Htag({ data, list, setList, deleteHandler }) {
     <div className='border bg-white'>
       <li className='list-none '>
         {data?.map(({ tagg, url }, index) => (
-          <>
-            <p className='text-xl text-blue-400 py-2  bg-white truncate w-8/12 pl-4'>
-              <a href={url} target='_blank'>
+          <div key={url}>
+            <div
+              key={url}
+              className='text-xl text-blue-400 py-2  bg-white truncate w-8/12 pl-4'
+            >
+              <a key={url} href={url} target='_blank'>
                 {url}
               </a>
-            </p>
-            <p>
-              {tagg?.map((i) => (
-                <>
+            </div>
+            <div>
+              {tagg?.map((i, index) => (
+                <div key={index}>
                   <p
+                    key={index}
                     onClick={() => setList(list.concat(i.slice(0, i.length)))}
                     className='py-2 px-6  bg-white text-black  cursor-pointer border-b border-gray-100 hover:font-bold'
                   >
                     {i}
                   </p>
-                </>
+                </div>
               ))}
-            </p>
-          </>
+            </div>
+          </div>
         ))}
       </li>
     </div>

@@ -5,7 +5,6 @@ import Htag from './Htag'
 import Overview from './Overview'
 import Facts from './Facts'
 import PeopleAsk from './PeopleAsk'
-import Summary from './Summary'
 
 function Sidebar({ list, setList, deleteHandler }) {
   const Htags = useSelector((state) => state.Htags)
@@ -115,9 +114,7 @@ function Sidebar({ list, setList, deleteHandler }) {
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div>
-              <Summary data={data} />
-            </div>
+            <div></div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

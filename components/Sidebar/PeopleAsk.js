@@ -20,8 +20,10 @@ function PeopleAsk({ data }) {
 
   return (
     <div className=''>
-      {peo?.map((i) => (
-        <li className='border py-2 shadow-sm p-3 list-decimal'>{i}</li>
+      {peo?.map((i, index) => (
+        <li key={index} className='border py-2 shadow-sm p-3 list-decimal'>
+          {i}
+        </li>
       ))}
     </div>
   )
