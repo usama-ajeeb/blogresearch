@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { HtagsList } from './redux/reducer'
+import { HtagsList, logIn } from './redux/reducer'
 
 const persistConfig = {
   key: 'root',
@@ -16,6 +16,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   Htags: HtagsList,
+  Logins: logIn,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

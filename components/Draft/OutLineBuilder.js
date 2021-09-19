@@ -5,7 +5,6 @@ import { BackspaceIcon } from '@heroicons/react/outline'
 // import 'react-quill/dist/quill.snow.css'
 
 function OutLineBuilder({ list, deleteHandler }) {
-  console.log('checkl', list)
   return (
     <div className='w-[850px]'>
       <h1 className='text-center font-semibold text-4xl text-gray-600'>

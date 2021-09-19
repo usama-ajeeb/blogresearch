@@ -16,7 +16,7 @@ function SearchInput({
     <form
       action=''
       onSubmit={submitHandler}
-      className='flex items-center mt-10  border-gray-300 border shadow-md py-3 bg-white w-[500px] md:w-[650px]  rounded-full px-5 mx-auto gap-x-2'
+      className='flex items-center mt-10  border-gray-300 border hover:shadow-xl py-3 bg-white w-[500px] md:w-[650px]  rounded-full px-5 mx-auto gap-x-2'
     >
       <SearchIcon className='h-6 text-gray-400' />
       <input

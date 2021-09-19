@@ -1,14 +1,13 @@
 import { useRouter } from 'next/dist/client/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Nav } from '../components/Header/Nav'
 import { useSelector } from 'react-redux'
 import OutLineBuilder from '../components/Draft/OutLineBuilder'
 import Sidebar from '../components/Sidebar/Sidebar'
 
-function result() {
+function result({ items }) {
   const router = useRouter()
-  const { keyword, location } = router.query
-
+  const { keyword, location, credit } = router.query
   const [list, setList] = useState([])
 
   // delete items
@@ -22,7 +21,7 @@ function result() {
 
   return (
     <div>
-      <Nav />
+      <Nav credit={credit} />
 
       <div className='flex justify-between mt-9 max-w-[1600px] mx-auto '>
         {/* Outline Builder */}

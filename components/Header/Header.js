@@ -9,10 +9,12 @@ export const Header = ({
   submitHandler,
   keyword,
   loading,
+  session,
+  credits,
 }) => {
   return (
     <div>
-      <Nav />
+      <Nav session={session} credits={credits} />
       <SearchInput
         keyword={keyword}
         submitHandler={submitHandler}

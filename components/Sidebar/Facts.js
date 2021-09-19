@@ -1,7 +1,6 @@
 import React from 'react'
 
 function Facts({ data, list, setList }) {
-  console.log('people', data)
   var containsNumber = /\d+/
   var containCalled = /https/i
   var factss = []
