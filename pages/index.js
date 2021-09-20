@@ -2,7 +2,11 @@ import { useRouter } from 'next/dist/client/router'
 import Head from 'next/head'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { HtagsAction } from '../redux/actions'
+import {
+  creditsAction,
+  HtagsAction,
+  UpdateCreditAction,
+} from '../redux/actions'
 import { Header } from '../components/Header/Header'
 import { countries } from '../Data/countries'
 
@@ -12,49 +16,33 @@ import { useCollection } from 'react-firebase-hooks/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../utils/firebase/firebase'
 
-export default function Home({ UserData }) {
+export default function Home({ UserData, credit }) {
   const [user] = useAuthState(auth)
   const [users, load, err] = useCollection(db.collection('users'))
   const router = useRouter()
   const dispatch = useDispatch()
   const [keyword, setKeyword] = useState('')
   const [country, setCountry] = useState(countries[0])
-  const [credit, setCredit] = useState('')
+  // const [credit, setCredit] = useState('')
   const Htags = useSelector((state) => state.Htags)
   const { loading, error } = Htags
   const Logins = useSelector((state) => state.Logins)
   const { userInfo } = Logins
 
-  if (credit) {
-    console.log('data', credit)
-  }
-
-  const updateCredits = async () => {
-    const id = UserData.filter((i) => i.uid?.includes(userInfo?.uid)).map(
-      (id) => id.docId
-    )
-    console.log(id)
-    if (credit) {
-      await db
-        .collection('users')
-        .doc(String(id))
-        .update({ credits: credit - 1 })
-    }
-  }
+  const Credits = useSelector((state) => state.Credits)
+  const { credits } = Credits
+  const creditsUpdate = useSelector((state) => state.creditsUpdate)
+  const { updatedCredits } = creditsUpdate
+  console.log(credits, 'Updated', updatedCredits)
 
   useEffect(() => {
-    let cancel = false
-    const Fetchcredits = () => {
-      UserData.filter((i) => i.uid?.includes(userInfo?.uid)).map((credit) => {
-        if (cancel) return
-        setCredit(credit.credits)
-      })
-    }
-    Fetchcredits()
+    let loading = true
 
-    return () => {
-      cancel = true
-    }
+    dispatch(creditsAction()).then(() => {
+      loading = false
+    })
+
+    return () => {}
   }, [user, users])
 
   const handleChange = useCallback(
@@ -66,31 +54,16 @@ export default function Home({ UserData }) {
   const submitHandler = async (e) => {
     e.preventDefault()
 
-    dispatch(HtagsAction(keyword, country))
-      .then(() => {
-        if (!error && credit) {
-          setCredit((i) => i - 1)
-        }
+    dispatch(HtagsAction(keyword, country)).then(() => {
+      router.push({
+        pathname: '/result',
+        query: {
+          location: country.name,
+          keyword: keyword,
+        },
       })
-      .then(() => {
-        if (!error && credit) {
-          updateCredits()
-        }
-      })
-      .then(() => {
-        if (credit) {
-          router.push({
-            pathname: '/result',
-            query: {
-              location: country.name,
-              keyword: keyword,
-              credit: credit - 1,
-            },
-          })
-        }
-      })
-    // updateCredits()
-    // setCredit((i) => i - 1)
+    })
+    dispatch(UpdateCreditAction())
   }
 
   return (
@@ -111,7 +84,7 @@ export default function Home({ UserData }) {
             country={country}
             setCountry={setCountry}
             loading={loading}
-            credits={credit}
+            credits={credits}
           />
         )}
       </header>
@@ -135,6 +108,7 @@ export async function getServerSideProps(context) {
 
   const Data = await usersRef.get()
   const UserData = Data.docs.map((doc) => doc.data())
+
   return {
     props: {
       UserData,

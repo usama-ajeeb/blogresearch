@@ -1,4 +1,5 @@
 import {
+  CREDITS_FETCH,
   HTAGS_LIST_FAILED,
   HTAGS_LIST_REQUEST,
   HTAGS_LIST_SUCESS,
@@ -71,4 +72,47 @@ export const loginAction = () => async (dispatch) => {
   } catch (error) {
     console.log(error.message)
   }
+}
+
+export const creditsAction = () => async (dispatch) => {
+  try {
+    const creditsRef = db.collection('users')
+    let allCredits = await creditsRef.get()
+    const credits = allCredits.docs
+      .map((i) => i.data())
+      .filter((i) => i.uid?.includes(auth.currentUser.uid))
+      .map((i) => i.credits)
+
+    dispatch({
+      type: CREDITS_FETCH,
+      payload: credits,
+    })
+  } catch (error) {}
+}
+
+export const UpdateCreditAction = () => async (dispatch) => {
+  try {
+    const creditsRef = db.collection('users')
+    let allCredits = await creditsRef.get()
+    const id = allCredits.docs
+      .map((i) => i.data())
+      .filter((i) => i.uid?.includes(auth.currentUser.uid))
+      .map((i) => i.docId)
+
+    const credits = allCredits.docs
+      .map((i) => i.data())
+      .filter((i) => i.uid?.includes(auth.currentUser.uid))
+      .map((i) => i.credits)
+
+    await db
+      .collection('users')
+      .doc(String(id))
+      .update({ credits: credits - 1 })
+      .then((res) => NewCredits.push(res))
+
+    dispatch({
+      type: CREDITS_FETCH,
+      payload: credits,
+    })
+  } catch (error) {}
 }

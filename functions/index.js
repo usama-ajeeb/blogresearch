@@ -33,8 +33,8 @@ app.post('/blog', async (req, res) => {
 
     url: 'https://api.dataforseo.com/v3/serp/google/organic/live/advanced',
     auth: {
-      username: 'easycomlife@gmail.com',
-      password: 'dd56269ad5986a27',
+      username: 'jewipiw420@secbuf.com',
+      password: 'fd1962643a2cadf4',
     },
     data: post_array,
     headers: {

@@ -7,8 +7,10 @@ import Sidebar from '../components/Sidebar/Sidebar'
 
 function result({ items }) {
   const router = useRouter()
-  const { keyword, location, credit } = router.query
+
   const [list, setList] = useState([])
+  const Credits = useSelector((state) => state.Credits)
+  const { credits } = Credits
 
   // delete items
   const deleteHandler = (id) => {
@@ -21,7 +23,7 @@ function result({ items }) {
 
   return (
     <div>
-      <Nav credit={credit} />
+      <Nav ResultCredit={credits} />
 
       <div className='flex justify-between mt-9 max-w-[1600px] mx-auto '>
         {/* Outline Builder */}

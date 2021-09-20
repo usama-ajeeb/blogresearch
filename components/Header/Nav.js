@@ -4,7 +4,7 @@ import { useRouter } from 'next/dist/client/router'
 import React from 'react'
 import { auth } from '../../utils/firebase/firebase'
 
-export const Nav = ({ credit, credits }) => {
+export const Nav = ({ ResultCredit, credits }) => {
   const router = useRouter()
 
   const signOut = () => {
@@ -30,7 +30,7 @@ export const Nav = ({ credit, credits }) => {
           >
             Sign out
           </button>
-          <p>credits: {credit || credits}</p>
+          <p>credits: {credits || ResultCredit}</p>
         </div>
       </div>
     </nav>
