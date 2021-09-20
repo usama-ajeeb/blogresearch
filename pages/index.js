@@ -31,9 +31,6 @@ export default function Home({ UserData, credit }) {
 
   const Credits = useSelector((state) => state.Credits)
   const { credits } = Credits
-  const creditsUpdate = useSelector((state) => state.creditsUpdate)
-  const { updatedCredits } = creditsUpdate
-  console.log(credits, 'Updated', updatedCredits)
 
   useEffect(() => {
     let loading = true
@@ -54,16 +51,9 @@ export default function Home({ UserData, credit }) {
   const submitHandler = async (e) => {
     e.preventDefault()
 
-    dispatch(HtagsAction(keyword, country)).then(() => {
-      router.push({
-        pathname: '/result',
-        query: {
-          location: country.name,
-          keyword: keyword,
-        },
-      })
-    })
-    dispatch(UpdateCreditAction())
+    dispatch(HtagsAction(keyword, country))
+
+    router.push('/result')
   }
 
   return (
@@ -88,17 +78,6 @@ export default function Home({ UserData, credit }) {
           />
         )}
       </header>
-      {loading && (
-        <div className='flex items-center justify-center flex-col gap-y-3'>
-          <h1 className='  animate-pulse text-red-400  text-7xl font-bold mt-9'>
-            {' '}
-            Processing
-          </h1>
-          <p className='text-lg text-gray-700 font-bold'>
-            We admire your patience
-          </p>
-        </div>
-      )}
     </div>
   )
 }

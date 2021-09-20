@@ -1,5 +1,3 @@
-// import { signOut, useSession } from 'next-auth/client'
-
 import { useRouter } from 'next/dist/client/router'
 import React from 'react'
 import { auth } from '../../utils/firebase/firebase'
@@ -9,7 +7,7 @@ export const Nav = ({ ResultCredit, credits }) => {
 
   const signOut = () => {
     localStorage.clear()
-    auth.signOut().then(() => router.push('/').then(router.reload()))
+    auth.signOut().then(() => router.push('/').then(() => router.reload()))
   }
   return (
     <nav className='flex justify-around items-center bg-gradient-to-r from-green-400 to-blue-500  py-5'>

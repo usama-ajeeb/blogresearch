@@ -41,17 +41,3 @@ export const fetchCredits = (state = { credits: null }, action) => {
 }
 
 // test
-
-export const updateCredits = (
-  state = {
-    updatedCredits: null,
-  },
-  action
-) => {
-  switch (action.type) {
-    case UPDATE_CREDIT_SUCCESS:
-      return { updatedCredits: action.payload }
-    default:
-      return state
-  }
-}

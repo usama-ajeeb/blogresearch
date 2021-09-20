@@ -24,6 +24,25 @@ export const HtagsAction = (keyword, country) => async (dispatch) => {
       }
     )
 
+    //
+    const creditsRef = db.collection('users')
+    let allCredits = await creditsRef.get()
+    const id = allCredits.docs
+      .map((i) => i.data())
+      .filter((i) => i.uid?.includes(auth.currentUser.uid))
+      .map((i) => i.docId)
+
+    const credits = allCredits.docs
+      .map((i) => i.data())
+      .filter((i) => i.uid?.includes(auth.currentUser.uid))
+      .map((i) => i.credits)
+
+    await db
+      .collection('users')
+      .doc(String(id))
+      .update({ credits: credits - 1 })
+    // end
+
     const data = await response.json()
 
     dispatch({
@@ -47,8 +66,6 @@ export const loginAction = () => async (dispatch) => {
     db.collection('users').onSnapshot((snapshot) =>
       snapshot.docs.map(async (i) => emails.push(i.data().email))
     )
-    console.log(emails)
-
     setTimeout(() => {
       if (!emails.includes(user.email)) {
         db.collection('users')
@@ -82,33 +99,6 @@ export const creditsAction = () => async (dispatch) => {
       .map((i) => i.data())
       .filter((i) => i.uid?.includes(auth.currentUser.uid))
       .map((i) => i.credits)
-
-    dispatch({
-      type: CREDITS_FETCH,
-      payload: credits,
-    })
-  } catch (error) {}
-}
-
-export const UpdateCreditAction = () => async (dispatch) => {
-  try {
-    const creditsRef = db.collection('users')
-    let allCredits = await creditsRef.get()
-    const id = allCredits.docs
-      .map((i) => i.data())
-      .filter((i) => i.uid?.includes(auth.currentUser.uid))
-      .map((i) => i.docId)
-
-    const credits = allCredits.docs
-      .map((i) => i.data())
-      .filter((i) => i.uid?.includes(auth.currentUser.uid))
-      .map((i) => i.credits)
-
-    await db
-      .collection('users')
-      .doc(String(id))
-      .update({ credits: credits - 1 })
-      .then((res) => NewCredits.push(res))
 
     dispatch({
       type: CREDITS_FETCH,
