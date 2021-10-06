@@ -9,8 +9,11 @@
   "dependencies": {
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "@stripe/stripe-js": "^1.17.1",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.10",
+    "docx": "^6.0.3",
+    "file-saver": "^2.0.5",
     "firebase": "^9.0.2",
     "firebase-functions": "^3.15.5",
     "next": "latest",
@@ -23,7 +26,8 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "stripe": "^8.176.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

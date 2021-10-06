@@ -66,6 +66,7 @@ export const loginAction = () => async (dispatch) => {
     db.collection('users').onSnapshot((snapshot) =>
       snapshot.docs.map(async (i) => emails.push(i.data().email))
     )
+
     setTimeout(() => {
       if (!emails.includes(user.email)) {
         db.collection('users')

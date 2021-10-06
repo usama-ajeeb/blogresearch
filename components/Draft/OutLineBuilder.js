@@ -1,16 +1,40 @@
 import React, { useState } from 'react'
-import { BackspaceIcon } from '@heroicons/react/outline'
+import { Packer, Document, Paragraph, TextRun } from 'docx'
+import { saveAs } from 'file-saver'
+
 // import dynamic from 'next/dynamic'
 // const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 // import 'react-quill/dist/quill.snow.css'
 
 function OutLineBuilder({ list, deleteHandler }) {
+  const generate = () => {
+    const listItem = list.map((i) => i)
+
+    const doc = new Document({
+      sections: [
+        {
+          children: [
+            new Paragraph({
+              text: String(listItem),
+            }),
+          ],
+        },
+      ],
+    })
+
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, 'example.docx')
+    })
+  }
   return (
     <div className='w-[850px]'>
-      <h1 className='text-center font-semibold text-4xl text-gray-600'>
+      <h1
+        onClick={generate}
+        className='text-center font-semibold text-4xl text-gray-600'
+      >
         Outline Builder
       </h1>
-      <div className='bg-white border my-5 p-8'>
+      <div className='bg-white border my-5 p-8 overflow-scroll h-[685px]'>
         {/* Text editor */}
         {list?.map((item, index) => (
           <p className='py-2 ' key={index}>
@@ -20,10 +44,6 @@ function OutLineBuilder({ list, deleteHandler }) {
                 remove
               </a>
             </span>
-            {/* <BackspaceIcon
-              onClick={() => deleteHandler(index)}
-              className='h-7 text-blue-500'
-            /> */}
           </p>
         ))}
       </div>

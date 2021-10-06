@@ -4,7 +4,6 @@ const cors = require('cors')
 const { request } = require('express')
 const { default: axios } = require('axios')
 const cheerio = require('cheerio')
-const { auth, default: db } = require('../utils/firebase/firebase')
 
 const app = express()
 
