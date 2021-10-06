@@ -1,5 +1,8 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
+require('events').defaultMaxListeners = 100
+
+import puppeteer from 'puppeteer'
 
 export default async function Urls(req, res) {
   try {
@@ -10,81 +13,35 @@ export default async function Urls(req, res) {
       const keyword = req.body.keyword
       const country = req.body.country
 
-      const urls = []
-
-      // Start
       let browser
-      ;(async () => {
-        // const searchQuery = 'cricket'
+      let urls = []
 
-        browser = await puppeteer.launch()
-        const [page] = await browser.pages()
-        await page.goto('https://www.google.com/')
-        await page.waitForSelector('input[aria-label="Search"]', {
-          visible: true,
-        })
-        await page.type('input[aria-label="Search"]', keyword, {
-          delay: 500,
-        })
-        await Promise.all([
-          page.waitForNavigation(),
-          page.keyboard.press('Enter'),
-        ])
-        await page.waitForSelector('.LC20lb', { visible: true })
-        const searchResults = await page.evaluate(() =>
-          [...document.querySelectorAll('.LC20lb')].map((e) => ({
-            title: e.innerText,
-            link: e.parentNode.href,
-          }))
-        )
-        // console.log(searchResults.map((i) => i.link))
-        searchResults.map((i) => urls.push(i.link))
-      })()
-        .catch((err) => console.error(err))
-        .finally(async () => await browser.close())
-      // end
+      browser = await puppeteer.launch()
+      const [page] = await browser.pages()
+      await page.goto('https://www.google.com/')
+      await page.waitForSelector('input[aria-label="Search"]', {
+        visible: true,
+      })
+      await page.waitForTimeout(1000)
+      await page.type('input[aria-label="Search"]', keyword, { delay: 500 })
+      await Promise.all([
+        page.waitForNavigation(),
+        page.keyboard.press('Enter', { delay: 500 }),
+      ])
+      await page.waitForSelector('.LC20lb', { visible: true, timeout: 150000 })
+      const searchResults = await page.evaluate(() =>
+        [...document.querySelectorAll('.LC20lb')].map((e) => ({
+          title: e.innerText,
+          link: e.parentNode.href,
+        }))
+      )
+      searchResults.map((i) => urls.push(i.link))
+      await page.waitForTimeout(1000)
+      await browser.close()
 
-      // const peopleAsk = []
-      // const post_array = []
-      // post_array.push({
-      //   language_code: 'en',
-      //   location_name: country,
-      //   keyword: keyword,
-      //   depth: 25,
-      // })
-
-      // await axios({
-      //   method: 'post',
-
-      //   url: 'https://api.dataforseo.com/v3/serp/google/organic/live/advanced',
-      //   auth: {
-      //     username: process.env.DFS_USER,
-      //     password: process.env.DFS_PASS,
-      //   },
-      //   data: post_array,
-      //   headers: {
-      //     'content-type': 'application/json',
-      //   },
-      // }).then((response) => {
-      //   response.data['tasks']?.map((i, index) =>
-      //     // i.result['0']['items']?.map((i) => console.log(i['items']))
-      //     i.result['0']['items']?.map((i) =>
-      //       i['items']?.map((i) => peopleAsk.push(i.title))
-      //     )
-      //   )
-
-      //   response.data['tasks']?.map((i, index) =>
-      //     i.result['0']['items']?.map((i) =>
-      //       i['url'] != undefined ? urls.push(i['url']) : i
-      //     )
-      //   )
-      // })
-      // .catch((error) => console.error(error))
-
-      // Scrapping
+      // scrapping
 
       const tagsArray = []
-
       await Promise.all(
         urls.map(async (i, index) => {
           await axios
@@ -127,7 +84,7 @@ export default async function Urls(req, res) {
                 images: images,
                 tagList: tagList,
                 facts: facts,
-                peopleAsk: peopleAsk,
+                // peopleAsk: peopleAsk,
                 summary: summ,
               })
             })

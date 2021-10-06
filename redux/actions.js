@@ -15,6 +15,7 @@ export const HtagsAction = (keyword, country) => async (dispatch) => {
 
     const response = await fetch(
       `https://us-central1-blogresearch-c5bc2.cloudfunctions.net/api/blog`,
+      // `api/urls`,
       {
         method: 'POST',
         body: JSON.stringify({ keyword: keyword, country: country.name }),
