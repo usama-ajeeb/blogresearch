@@ -74,7 +74,7 @@ export const loginAction = () => async (dispatch) => {
           .add({
             email: user.email,
             name: user.displayName,
-            credits: 3,
+            credits: 15,
             uid: user.uid,
             docId: null,
           })
