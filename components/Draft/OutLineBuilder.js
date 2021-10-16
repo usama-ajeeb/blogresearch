@@ -10,6 +10,8 @@ function OutLineBuilder({ list, deleteHandler }) {
   const generate = () => {
     const listItem = list.map((i) => i)
 
+    // console.log(listItem)
+
     const doc = new Document({
       sections: [
         {
@@ -28,12 +30,10 @@ function OutLineBuilder({ list, deleteHandler }) {
   }
   return (
     <div className='w-[850px]'>
-      <h1
-        onClick={generate}
-        className='text-center font-semibold text-4xl text-gray-600'
-      >
+      <h1 className='text-center font-semibold text-4xl text-gray-600'>
         Outline Builder
       </h1>
+
       <div className='bg-white border my-5 p-8 overflow-scroll h-[685px]'>
         {/* Text editor */}
         {list?.map((item, index) => (
